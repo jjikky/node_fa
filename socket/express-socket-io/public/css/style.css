@@ -109,6 +109,10 @@ button:disabled {
   font-size: 14px;
 }
 
+.message {
+  margin-bottom: 15px;
+}
+
 .message a {
   color: darkslateblue;
 }
