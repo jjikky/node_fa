@@ -13,7 +13,7 @@ const addUser = ({ id, username, room }) => {
     return user.room === room && user.username === usernmae;
   });
 
-  if (existingUser) {
+  if (exisitngUser) {
     return {
       error: "사용중인 이름입니다.",
     };
