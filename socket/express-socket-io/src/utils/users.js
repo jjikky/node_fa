@@ -20,7 +20,6 @@ const addUser = ({ id, username, room }) => {
     };
   }
 
-  // 유저 저장
   const user = { id, username, room };
   users.push(user);
   return { user };
@@ -34,4 +33,13 @@ const getUsersInRoom = (room) => {
 const getUser = (id) => {
   return users.find((user) => user.id === id);
 };
-module.exports = { addUser, getUsersInRoom, getUser };
+
+const removeUser = (id) => {
+  const index = users.findIndex((user) => user.id === id);
+  if (index !== -1) {
+    // 삭제한 유저 정보 리턴
+    return users.splice(index, 1)[0];
+  }
+};
+
+module.exports = { addUser, getUsersInRoom, getUser, removeUser };
