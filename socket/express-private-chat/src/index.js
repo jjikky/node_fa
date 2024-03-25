@@ -54,7 +54,14 @@ io.on("connection", async (socket) => {
   // get message from db
   socket.on("fetch-messages", () => {});
 
-  socket.on("disconnect", () => {});
+  // when user leave
+  socket.on("disconnect", () => {
+    users = users.filter((user) => user.userID !== socket.id);
+    // remove in sidebar list
+    io.emit("users-data", { users });
+    // 대화 중이라면 대화창 없애기
+    io.emit("user-away", socket.id);
+  });
 });
 
 const port = 4000;

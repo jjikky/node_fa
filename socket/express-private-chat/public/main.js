@@ -115,6 +115,16 @@ socket.on("users-data", ({ users }) => {
   }
 });
 
+// user leave
+socket.on("user-away", (userID) => {
+  const to = title.getAttribute("userID");
+  if (to === userID) {
+    title.innerHTML = "&nbsp;";
+    msgDiv.classList.add("d-none");
+    messages.classList.add("d-none");
+  }
+});
+
 // 세션 가져오기
 const sessUsername = localStorage.getItem("session-username");
 const sessUserID = localStorage.getItem("session-userID");
