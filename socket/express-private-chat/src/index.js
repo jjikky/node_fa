@@ -3,6 +3,7 @@ const path = require("path");
 const app = express();
 const crypto = require("crypto");
 require("../db");
+const { saveMessages } = require("./utils/messages");
 const http = require("http");
 const { Server } = require("socket.io");
 const server = http.createServer(app);
@@ -44,8 +45,11 @@ io.on("connection", async (socket) => {
   users.push(userData);
   io.emit("users-data", { users });
 
-  // message from client
-  socket.on("message-to-server", () => {});
+  // message from client :  A ==> Server  ===> B
+  socket.on("message-to-server", (payload) => {
+    io.to(payload.to).emit("message-to-client", payload);
+    saveMessages(payload);
+  });
 
   // get message from db
   socket.on("fetch-messages", () => {});

@@ -75,6 +75,22 @@ const setActiveUser = (element, username, userID) => {
   notify.classList.add("d-none");
 };
 
+const appendMessage = ({ message, time, background, position }) => {
+  let div = document.createElement("div");
+  div.classList.add(
+    "message",
+    "bg-opacity-25",
+    "m-2",
+    "px-2",
+    "py-1",
+    background,
+    position
+  );
+  div.innerHTML = `<span class="msg-text">${message}</span> <span class="msg-time"> ${time}</span>`;
+  messages.append(div);
+  messages.scrollTo(0, messages.scrollHeight);
+};
+
 socket.on("users-data", ({ users }) => {
   const index = users.findIndex((user) => user.userID === socket.id);
   if (index > -1) {
@@ -110,3 +126,50 @@ if (sessUsername && sessUserID) {
   chatBody.classList.remove("d-none");
   userTitle.innerHTML = sessUsername;
 }
+
+const msgForm = document.querySelector(".msgForm");
+const message = document.getElementById("message");
+
+msgForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const to = title.getAttribute("userID");
+  const time = new Date().toLocaleString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+
+  // 메시지 payload 만들기
+  const payload = {
+    from: socket.id,
+    to,
+    message: message.value,
+    time,
+  };
+
+  socket.emit("message-to-server", payload);
+
+  appendMessage({ ...payload, background: "bg-success", position: "right" });
+
+  message.value = "";
+  message.focus();
+});
+
+socket.on("message-to-client", ({ from, message, time }) => {
+  const receiver = title.getAttribute("userID");
+  const notify = document.getElementById(from);
+
+  if (receiver === null) {
+    notify.classList.remove("d-none");
+  } else if (receiver === from) {
+    appendMessage({
+      message,
+      time,
+      background: "bg-secondary",
+      position: "left",
+    });
+  } else {
+    notify.classList.remove("d-none");
+  }
+});
