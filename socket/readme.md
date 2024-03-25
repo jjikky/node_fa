@@ -15,3 +15,18 @@ skill : express, mustache, socket.io
 ## 2. repo : express-private-chat
 
 skill : express, mongodb, bootstrap, socket.io
+
+채팅방 입장
+
+![image](https://github.com/jjikky/node_fa/assets/59151187/96d1e5e1-2a38-47c4-87ef-8f5d902eaeed)
+
+채팅방
+
+![image](https://github.com/jjikky/node_fa/assets/59151187/484dbccd-fdee-43e0-a585-b18278b56fc5)
+
+기능
+- session
+- select reciever
+- fetchMessage from database
+- send message, recieve message
+- leave room
