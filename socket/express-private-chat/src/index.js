@@ -3,7 +3,7 @@ const path = require("path");
 const app = express();
 const crypto = require("crypto");
 require("../db");
-const { saveMessages } = require("./utils/messages");
+const { saveMessages, fetchMessages } = require("./utils/messages");
 const http = require("http");
 const { Server } = require("socket.io");
 const server = http.createServer(app);
@@ -52,7 +52,9 @@ io.on("connection", async (socket) => {
   });
 
   // get message from db
-  socket.on("fetch-messages", () => {});
+  socket.on("fetch-messages", ({ receiver }) => {
+    fetchMessages(io, socket.id, receiver);
+  });
 
   // when user leave
   socket.on("disconnect", () => {
