@@ -1,0 +1,16 @@
+sudo: required
+
+languages: gemeric
+
+services:
+  - docker
+
+before_install:
+  - echo "start Creating an image with dockerfile"
+  - docker build -t jjikky/docker-react-app -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true jjikky/docker-react-app npm run test -- --coverage
+
+after_success:
+  - echo "Test Success"
